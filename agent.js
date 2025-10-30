@@ -3,16 +3,24 @@ import { createAgentApp } from "@lucid-dreams/agent-kit";
 import { z } from "zod";
 import { ethers } from 'ethers';
 
-const { app, addEntrypoint } = createAgentApp(
-  {
-    name: "approval-risk-auditor",
-    version: "0.1.0",
-    description: "Flag unlimited or stale ERC-20 / NFT approvals",
+const agentMeta = {
+  name: "approval-risk-auditor",
+  version: "0.1.0",
+  description: "Flag unlimited or stale ERC-20 / NFT approvals",
+};
+
+const configOverrides = {
+  payments: {
+    facilitatorUrl: process.env.FACILITATOR_URL || "https://facilitator.daydreams.systems",
+    payTo: process.env.PAY_TO || "0xb308ed39d67D0d4BAe5BC2FAEF60c66BBb6AE429",
+    network: process.env.NETWORK || "base",
+    defaultPrice: process.env.DEFAULT_PRICE || "0.01",
   },
-  {
-    useConfigPayments: true,
-  }
-);
+};
+
+const { app, addEntrypoint } = createAgentApp(agentMeta, {
+  config: configOverrides,
+});
 
 const ERC20_ABI = ['function approve(address spender, uint256 amount)'];
 const NFT_ABI = ['function setApprovalForAll(address operator, bool approved)'];
@@ -118,7 +126,7 @@ addEntrypoint({
     wallet: z.string().describe("Wallet address (e.g., 0x... or ENS name)"),
     chains: z.array(z.string()).describe("Array of chain names (e.g., ['eth-mainnet', 'polygon-mainnet'])"),
   }),
-  price: "0.03",
+  price: "0.01",
   output: z.object({
     approvals: z.array(z.any()),
     risk_flags: z.array(z.any()),

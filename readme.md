@@ -122,18 +122,31 @@ This agent supports the x402 payment protocol. When enabled:
 
 - Each audit request costs a small fee (configurable via `DEFAULT_PRICE`)
 - Payments are handled automatically by the agent-kit framework
-- Set `ADDRESS` in .env to your payment wallet address
-- Supports multiple networks (Base Sepolia, Ethereum, etc.)
+- Set `PAY_TO` in .env to your payment wallet address
+- Supports multiple networks (Base mainnet, Ethereum, etc.)
 
 **Environment Variables:**
 ```env
-ADDRESS=0xYourPaymentWallet
-NETWORK=base-sepolia
-DEFAULT_PRICE=0.03
+PAY_TO=0xYourPaymentWallet
+NETWORK=base
+DEFAULT_PRICE=0.01
 FACILITATOR_URL=https://facilitator.daydreams.systems
 ```
 
-**Note:** The deployed version uses default payment configuration. To receive payments to your own wallet, set the `ADDRESS` environment variable in your deployment.
+**Testing Payments:**
+
+To test the payment flow locally:
+
+```bash
+# Add your test wallet private key to .env
+PRIVATE_KEY=your_private_key_here
+NETWORK=base
+
+# Run the payment test script
+npm run pay:test
+```
+
+This will make a paid request to the agent, automatically handling the x402 payment flow and displaying the audit results.
 
 ## Response Format
 
