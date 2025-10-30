@@ -4,11 +4,17 @@ import { z } from "zod";
 import { ethers } from 'ethers';
 
 // --- Agent Server Setup ---
-const { app, addEntrypoint } = createAgentApp({
-  name: "approval-risk-auditor",
-  version: "0.1.0",
-  description: "Flag unlimited or stale ERC-20 / NFT approvals",
-});
+const { app, addEntrypoint } = createAgentApp(
+  {
+    name: "approval-risk-auditor",
+    version: "0.1.0",
+    description: "Flag unlimited or stale ERC-20 / NFT approvals",
+  },
+  {
+    // Enable x402 payments
+    useConfigPayments: true,
+  }
+);
 
 // --- ABIs, Constants, and API Logic ---
 const ERC20_ABI = ['function approve(address spender, uint256 amount)'];
@@ -121,8 +127,9 @@ async function processChain(chainName, walletAddress, apiKey) {
 
 // --- Agent Entrypoint Definition ---
 addEntrypoint({
-  key: "audit", // This is the function name the user will call
+  key: "audit",
   description: "Audit a wallet for risky ERC-20 and NFT approvals.",
+  price: "1000", // Price in base units (e.g., 1000 = $0.001 if using USDC with 6 decimals)
   input: z.object({
     wallet: z.string().describe("Wallet address (e.g., 0x... or ENS name)"),
     chains: z.array(z.string()).describe("Array of chain names (e.g., ['eth-mainnet', 'polygon-mainnet'])"),

@@ -8,6 +8,7 @@ An AI agent that audits Ethereum wallets for risky ERC-20 and NFT approvals acro
 - **Risk Detection** - Automatically flags unlimited and stale (>365 days) approvals
 - **Revoke Transactions** - Generates ready-to-sign transaction data to revoke risky approvals
 - **HTTP API** - RESTful endpoint for easy integration
+- **x402 Payments** - Built-in payment support via x402 protocol
 
 ## Quick Start
 
@@ -22,8 +23,14 @@ An AI agent that audits Ethereum wallets for risky ERC-20 and NFT approvals acro
 # Install dependencies
 npm install
 
-# Create .env file
+# Create .env file with your API key
 echo "COVALENT_API_KEY=your_api_key_here" > .env
+
+# Optional: Configure x402 payments
+# Add to .env:
+# ADDRESS=your_payment_wallet_address
+# NETWORK=base-sepolia
+# DEFAULT_PRICE=1000
 ```
 
 ### Usage
@@ -97,6 +104,25 @@ bounty5-auditor/
 3. **Generates Revoke Data** - Creates transaction payloads:
    - ERC-20: `approve(spender, 0)`
    - NFT: `setApprovalForAll(operator, false)`
+
+## x402 Payments
+
+This agent supports the x402 payment protocol. When enabled:
+
+- Each audit request costs a small fee (configurable via `DEFAULT_PRICE`)
+- Payments are handled automatically by the agent-kit framework
+- Set `ADDRESS` in .env to your payment wallet address
+- Supports multiple networks (Base Sepolia, Ethereum, etc.)
+
+**Environment Variables:**
+```env
+ADDRESS=0xYourPaymentWallet
+NETWORK=base-sepolia
+DEFAULT_PRICE=1000
+FACILITATOR_URL=https://facilitator.daydreams.systems
+```
+
+Payment is optional - leave these variables unset for free access.
 
 ## Response Format
 
