@@ -19,7 +19,7 @@ An AI agent that audits Ethereum wallets for risky ERC-20 and NFT approvals acro
 ### Prerequisites
 
 - Node.js v18+
-- Covalent API key ([Get one free](https://www.covalenthq.com/platform/))
+- Covalent API key
 
 ### Installation
 
@@ -48,7 +48,7 @@ To test the complete x402 payment flow:
 # Add to .env:
 PRIVATE_KEY=your_test_wallet_private_key
 NETWORK=base
-AGENT_URL=http://localhost:8080
+AGENT_URL=http://localhost:8080 ( or hosted link )
 
 # Run payment test
 node pay-and-test.js
