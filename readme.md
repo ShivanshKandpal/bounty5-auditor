@@ -1,6 +1,10 @@
 # Approval Risk Auditor Agent
 
-An AI agent that audits Ethereum wallets for risky ERC-20 and NFT approvals across multiple blockchains. Built with [@lucid-dreams/agent-kit](https://github.com/daydreamsai/lucid-fullstack).
+> **Live Deployment:** https://bounty5-auditor-production.up.railway.app
+
+An AI agent that audits Ethereum wallets for risky ERC-20 and NFT approvals across multiple blockchains. Built with [@lucid-dreams/agent-kit](https://github.com/daydreamsai/lucid-fullstack) and deployed with x402 payment protocol.
+
+**Bounty Submission:** This agent was built for the [Daydreams AI Agent Bounties](https://github.com/daydreamsai/agent-bounties/issues/5) program.
 
 ## Features
 
@@ -30,17 +34,24 @@ echo "COVALENT_API_KEY=your_api_key_here" > .env
 # Add to .env:
 # ADDRESS=your_payment_wallet_address
 # NETWORK=base-sepolia
-# DEFAULT_PRICE=1000
+# DEFAULT_PRICE=0.03
+# FACILITATOR_URL=https://facilitator.daydreams.systems
 ```
 
 ### Usage
 
 **Start the server:**
 ```bash
-node server.js
+npm start
 ```
 
-**Make a request:**
+**Test the deployment:**
+```bash
+# Check agent manifest
+curl https://bounty5-auditor-production.up.railway.app/.well-known/agent-card.json
+```
+
+**Make a request (local):**
 ```bash
 curl -X POST http://localhost:8080/entrypoints/audit/invoke \
   -H "Content-Type: application/json" \
@@ -118,11 +129,11 @@ This agent supports the x402 payment protocol. When enabled:
 ```env
 ADDRESS=0xYourPaymentWallet
 NETWORK=base-sepolia
-DEFAULT_PRICE=1000
+DEFAULT_PRICE=0.03
 FACILITATOR_URL=https://facilitator.daydreams.systems
 ```
 
-Payment is optional - leave these variables unset for free access.
+**Note:** The deployed version uses default payment configuration. To receive payments to your own wallet, set the `ADDRESS` environment variable in your deployment.
 
 ## Response Format
 
@@ -155,6 +166,29 @@ The agent returns three parallel arrays:
 }
 ```
 
+## Development
+
+**Dependencies:**
+- `@lucid-dreams/agent-kit` v0.2.22 - Agent framework
+- `@hono/node-server` v1.19.5 - HTTP server adapter
+- `ethers` v6.15.0 - Blockchain library for transaction encoding
+- `@covalenthq/client-sdk` v2.3.4 - Blockchain data API
+
+**Running locally:**
+```bash
+npm install
+npm start
+```
+
+Server runs on `http://localhost:8080`
+
+## Deployment
+
+This agent is deployed on Railway:
+- **URL:** https://bounty5-auditor-production.up.railway.app
+- **Environment:** Node.js 22
+- **Required Env Vars:** `COVALENT_API_KEY`
+
 ## License
 
 MIT
@@ -162,3 +196,7 @@ MIT
 ## Contributing
 
 Contributions welcome! Please open an issue or PR.
+
+## Acknowledgments
+
+Built for the [Daydreams AI Agent Bounties](https://github.com/daydreamsai/agent-bounties) program - Issue #5
