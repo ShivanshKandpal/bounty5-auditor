@@ -14,6 +14,13 @@ response.json
 test-agent.js
 test-detailed.js
 index.js
+view-results.js
+test-x402.js
+
+# Documentation (deployment guides - not needed in repo)
+DEPLOYMENT.md
+VERIFY-X402.md
+.github-ready.md
 
 # Old/unused files
 process_local_files.js

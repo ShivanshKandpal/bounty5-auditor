@@ -1,4 +1,3 @@
-// server.js - HTTP server for the approval risk auditor agent
 import { serve } from '@hono/node-server';
 import app from "./agent.js";
 
