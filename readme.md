@@ -82,25 +82,10 @@ curl -X POST http://localhost:8080/entrypoints/audit/invoke \
 
 ```
 bounty5-auditor/
-├── agent.js           # Main agent logic and entrypoint definition
-├── server.js          # HTTP server wrapper
-├── index.js           # Standalone testing script
-├── test-agent.js      # Example usage script
-├── test-detailed.js   # Detailed testing with full output
-├── package.json       # Dependencies and metadata
-└── .env              # Environment variables (not committed)
-```
-
-## Development
-
-**Test data fetching:**
-```bash
-node index.js
-```
-
-**Run test suite:**
-```bash
-node test-detailed.js
+├── agent.js       # Main agent logic and entrypoint definition
+├── server.js      # HTTP server wrapper
+├── package.json   # Dependencies and metadata
+└── .env          # Environment variables (not committed)
 ```
 
 ## How It Works
