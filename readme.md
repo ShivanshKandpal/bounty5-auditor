@@ -4,10 +4,10 @@ An AI agent that audits Ethereum wallets for risky ERC-20 and NFT approvals acro
 
 ## Features
 
-- 🔍 **Multi-chain Support** - Audit wallets across Ethereum, Polygon, Arbitrum, Optimism, Base, and more
-- ⚠️ **Risk Detection** - Automatically flags unlimited and stale (>365 days) approvals
-- 🔨 **Revoke Transactions** - Generates ready-to-sign transaction data to revoke risky approvals
-- 🚀 **HTTP API** - RESTful endpoint for easy integration
+- **Multi-chain Support** - Audit wallets across Ethereum, Polygon, Arbitrum, Optimism, Base, and more
+- **Risk Detection** - Automatically flags unlimited and stale (>365 days) approvals
+- **Revoke Transactions** - Generates ready-to-sign transaction data to revoke risky approvals
+- **HTTP API** - RESTful endpoint for easy integration
 
 ## Quick Start
 

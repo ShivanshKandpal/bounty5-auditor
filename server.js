@@ -8,5 +8,5 @@ serve({
   fetch: app.fetch,
   port: port
 }, (info) => {
-  console.log(`🚀 Agent server listening on http://localhost:${info.port}`);
+  console.log(`Agent server listening on http://localhost:${info.port}`);
 });
