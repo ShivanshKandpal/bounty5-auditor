@@ -114,12 +114,18 @@ async function processChain(chainName, walletAddress, apiKey) {
 addEntrypoint({
   key: "audit",
   description: "Audit a wallet for risky ERC-20 and NFT approvals.",
-  price: "1000",
   input: z.object({
     wallet: z.string().describe("Wallet address (e.g., 0x... or ENS name)"),
     chains: z.array(z.string()).describe("Array of chain names (e.g., ['eth-mainnet', 'polygon-mainnet'])"),
   }),
-  async handler({ input }) {
+  price: "0.03",
+  output: z.object({
+    approvals: z.array(z.any()),
+    risk_flags: z.array(z.any()),
+    revoke_tx_data: z.array(z.any()),
+  }),
+  async handler(ctx) {
+    const { input } = ctx;
     const { wallet, chains } = input;
     const apiKey = process.env.COVALENT_API_KEY;
 
