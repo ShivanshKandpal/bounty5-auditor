@@ -29,39 +29,35 @@ npm install
 
 # Create .env file with your API key
 echo "COVALENT_API_KEY=your_api_key_here" > .env
-
-# Optional: Configure x402 payments
-# Add to .env:
-# ADDRESS=your_payment_wallet_address
-# NETWORK=base-sepolia
-# DEFAULT_PRICE=0.03
-# FACILITATOR_URL=https://facilitator.daydreams.systems
 ```
 
-### Usage
+### Running Locally
 
-**Start the server:**
 ```bash
+# Start the server
 npm start
 ```
 
-**Test the deployment:**
+Server runs on `http://localhost:8080`
+
+### Testing Payment Flow
+
+To test the complete x402 payment flow:
+
 ```bash
-# Check agent manifest
-curl https://bounty5-auditor-production.up.railway.app/.well-known/agent-card.json
+# Add to .env:
+PRIVATE_KEY=your_test_wallet_private_key
+NETWORK=base
+AGENT_URL=http://localhost:8080
+
+# Run payment test
+node pay-and-test.js
 ```
 
-**Make a request (local):**
-```bash
-curl -X POST http://localhost:8080/entrypoints/audit/invoke \
-  -H "Content-Type: application/json" \
-  -d '{
-    "input": {
-      "wallet": "vitalik.eth",
-      "chains": ["eth-mainnet", "polygon-mainnet"]
-    }
-  }'
-```
+This demonstrates:
+1. Request without payment returns 402 Payment Required
+2. Payment is created and sent (0.01 USDC on Base)
+3. Request with payment returns 200 OK with audit results
 
 ## API Documentation
 
@@ -118,12 +114,13 @@ bounty5-auditor/
 
 ## x402 Payments
 
-This agent supports the x402 payment protocol. When enabled:
+This agent supports the x402 payment protocol on Base mainnet.
 
-- Each audit request costs a small fee (configurable via `DEFAULT_PRICE`)
-- Payments are handled automatically by the agent-kit framework
-- Set `PAY_TO` in .env to your payment wallet address
-- Supports multiple networks (Base mainnet, Ethereum, etc.)
+**Payment Configuration:**
+- Network: Base (mainnet)
+- Price: 0.01 USDC per audit request
+- Token: USDC (0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913)
+- Facilitator: https://facilitator.daydreams.systems
 
 **Environment Variables:**
 ```env
@@ -133,9 +130,7 @@ DEFAULT_PRICE=0.01
 FACILITATOR_URL=https://facilitator.daydreams.systems
 ```
 
-**Testing Payments:**
-
-To test the payment flow locally:
+**Testing Payments Locally:**
 
 ```bash
 # Add your test wallet private key to .env
@@ -143,10 +138,19 @@ PRIVATE_KEY=your_private_key_here
 NETWORK=base
 
 # Run the payment test script
-npm run pay:test
+node pay-and-test.js
 ```
 
-This will make a paid request to the agent, automatically handling the x402 payment flow and displaying the audit results.
+This script:
+1. Makes a request without payment (gets 402)
+2. Creates payment authorization
+3. Makes request with payment header (gets 200)
+4. Shows the exact responses received
+
+Check your balance after to verify payment was deducted:
+```bash
+node check-balance.js
+```
 
 ## Response Format
 
@@ -200,7 +204,17 @@ Server runs on `http://localhost:8080`
 This agent is deployed on Railway:
 - **URL:** https://bounty5-auditor-production.up.railway.app
 - **Environment:** Node.js 22
-- **Required Env Vars:** `COVALENT_API_KEY`
+
+**Required Environment Variables:**
+```env
+COVALENT_API_KEY=your_covalent_api_key
+PAY_TO=0xYourPaymentWallet
+NETWORK=base
+DEFAULT_PRICE=0.01
+FACILITATOR_URL=https://facilitator.daydreams.systems
+```
+
+**Note:** `PRIVATE_KEY` is NOT needed on Railway. It's only for local testing to pay yourself.
 
 ## License
 
