@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.local
+
+# Cached data files
+erc20Data.json
+nftData.json
+
+# Test files
+response.json
+test-agent.js
+test-detailed.js
+index.js
+
+# Old/unused files
+process_local_files.js
+requirements.txt
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db

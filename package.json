@@ -1,0 +1,22 @@
+{
+  "name": "bounty5-auditor",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@covalenthq/client-sdk": "^2.3.4",
+    "@hono/node-server": "^1.19.5",
+    "@lucid-dreams/agent-kit": "^0.2.22",
+    "axios": "^1.13.1",
+    "dotenv": "^17.2.3",
+    "ethers": "^6.15.0",
+    "zod": "^4.1.12"
+  }
+}
