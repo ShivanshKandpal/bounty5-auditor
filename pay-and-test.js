@@ -56,24 +56,33 @@ const secondResponse = await fetch(url, {
   body: requestBody
 });
 
-const secondBody = await secondResponse.text();
+const secondBody = await secondResponse.json();
 
 console.log(`Status: ${secondResponse.status} ${secondResponse.statusText}\n`);
 
 if (secondResponse.ok) {
   console.log('✓ Payment accepted! Audit completed\n');
   
-  console.log('Response received:');
-  console.log(secondBody);
+  console.log('Full Response:');
+  console.log(JSON.stringify(secondBody, null, 2));
   console.log('');
   
-  console.log('Agent processed and returned:');
-  console.log('  - Risky approvals detected');
-  console.log('  - Risk flags for each approval');
-  console.log('  - Revoke transaction data\n');
+  if (secondBody.output) {
+    const { approvals, risk_flags, revoke_tx_data } = secondBody.output;
+    console.log('📊 Audit Results:');
+    console.log(`  - Approvals found: ${approvals.length}`);
+    console.log(`  - Risk flags: ${risk_flags.length}`);
+    console.log(`  - Revoke transactions: ${revoke_tx_data.length}`);
+    console.log('');
+    
+    if (approvals.length > 0) {
+      console.log('Example approval:');
+      console.log(JSON.stringify(approvals[0], null, 2));
+    }
+  }
   
-  console.log('Check balance: node check-balance.js');
+  console.log('\n✓ Check balance: node check-balance.js');
 } else {
   console.log('✗ Request failed');
-  console.log(`Response: ${secondBody}`);
+  console.log(`Response: ${JSON.stringify(secondBody, null, 2)}`);
 }

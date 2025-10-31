@@ -20,6 +20,7 @@ const configOverrides = {
 
 const { app, addEntrypoint } = createAgentApp(agentMeta, {
   config: configOverrides,
+  useConfigPayments: true,
 });
 
 const ERC20_ABI = ['function approve(address spender, uint256 amount)'];
@@ -161,9 +162,11 @@ addEntrypoint({
     const cleanRevokeTxData = allRevokeTxData.filter(tx => tx !== null);
 
     return {
-      approvals: allApprovals,
-      risk_flags: allRiskFlags,
-      revoke_tx_data: cleanRevokeTxData,
+      output: {
+        approvals: allApprovals,
+        risk_flags: allRiskFlags,
+        revoke_tx_data: cleanRevokeTxData,
+      }
     };
   },
 });
